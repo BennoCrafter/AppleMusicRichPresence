@@ -1,5 +1,5 @@
 if application "Music" is not running then
-    return "STOPPED"
+    return "STOPPED||"
 else
     try
         tell application "Music"
@@ -8,7 +8,7 @@ else
             set songduration to duration of current track
 
             if playerstate is not playing and playerstate is not paused then
-                return "STOPPED"
+                return "STOPPED||"
             else
                 if playerstate is playing then
                     return "PLAYING||" & name of current track & "||" & artist of current track & "||" & album of current track & "||" & playerposition & "||" & songduration
@@ -18,6 +18,6 @@ else
             end if
         end tell
     on error
-        return "STOPPED"
+        return "STOPPED||"
     end try
 end if

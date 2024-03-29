@@ -2,7 +2,7 @@
     "name": "apple-music-rich-presencce",
     "version": "1.0.0",
     "description": "The missing rich presence for apple music created by Benno",
-    "main": "src/menubar/app.js",
+    "main": "src/menubarElectron/app.js",
     "scripts": {
         "start": "electron ."
     },
