@@ -1,15 +1,14 @@
 const { app, Menu, Tray } = require("electron");
 const { menubar } = require("menubar");
-const {currentTrack, initDiscordRPC } = require("../richpresence/rpc.js")
+const { currentTrack, initDiscordRPC } = require("../richpresence/rpc.js");
 app.on("ready", () => {
   const tray = new Tray("./src/assets/music-2-xxl.png");
   const contextMenu = Menu.buildFromTemplate([
-    { label: currentTrack, type: "radio", click: () => {} },
+    { label: currentTrack, click: () => {} },
     { label: "Item2", type: "radio" },
-    { label: "Settings", type: "radio" },
+    { label: "Settings" },
     {
       label: "Quit",
-      type: "radio",
       click: () => {
         quitApp();
       },
@@ -24,7 +23,7 @@ app.on("ready", () => {
   mb.on("ready", () => {
     console.log("Menubar app is ready.");
     tray.removeAllListeners();
-    initDiscordRPC()
+    initDiscordRPC();
     // your app code here
   });
 });
