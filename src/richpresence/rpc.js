@@ -4,8 +4,7 @@ const { getSongCover } = require("../utils/getSongCover");
 const clientId = "1221392804161523824"; // Replace this with your actual client ID
 const rpc = new DiscordRPC.Client({ transport: "ipc" });
 const os = require("os");
-
-let currentTrack = undefined;
+const { setStringValue, store } = require("./state.js");
 
 async function setDiscordPresence({
   trackName,
@@ -44,6 +43,7 @@ async function updatePresence() {
       songDuration: "100",
       currentPos: "10",
     });
+    store.dispatch(setStringValue("Fake Track Name"));
     return;
   }
 
@@ -69,6 +69,7 @@ async function updatePresence() {
         });
         currentTrack = result[1];
       }
+      store.dispatch(setStringValue(result[1]));
     }
   } catch (error) {
     console.error("Error:", error);
@@ -93,4 +94,4 @@ rpc.on("ready", () => {
   setInterval(updatePresence, 5000);
 });
 
-module.exports = { initDiscordRPC, currentTrack };
+module.exports = { initDiscordRPC };

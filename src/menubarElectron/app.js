@@ -1,20 +1,31 @@
 const { app, Menu, Tray } = require("electron");
 const { menubar } = require("menubar");
-const { currentTrack, initDiscordRPC } = require("../richpresence/rpc.js");
-app.on("ready", () => {
-  const tray = new Tray("./src/assets/music-2-xxl.png");
-  const contextMenu = Menu.buildFromTemplate([
-    { label: currentTrack, click: () => {} },
-    { label: "Item2", type: "radio" },
-    { label: "Settings" },
-    {
-      label: "Quit",
-      click: () => {
-        quitApp();
-      },
+const { initDiscordRPC } = require("../richpresence/rpc.js");
+const { store } = require("../richpresence/state.js");
+
+let tray;
+let contextMenuTemplate = [
+  { label: "Not Playing", click: () => {} },
+  { label: "Item2", type: "radio" },
+  { label: "Settings" },
+  {
+    label: "Quit",
+    click: () => {
+      quitApp();
     },
-  ]);
-  tray.setContextMenu(contextMenu);
+  },
+];
+
+store.subscribe(() => {
+  const currentState = store.getState();
+  console.log("State updated:", currentState);
+  contextMenuTemplate[0].label = currentState.stringState.stringValue;
+  tray.setContextMenu(Menu.buildFromTemplate(contextMenuTemplate));
+});
+
+app.on("ready", () => {
+  tray = new Tray("./src/assets/music-2-xxl.png");
+  tray.setContextMenu(Menu.buildFromTemplate(contextMenuTemplate));
 
   const mb = menubar({
     tray,
